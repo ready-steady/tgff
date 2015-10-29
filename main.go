@@ -2,7 +2,7 @@
 // which is a format for storing task graphs and accompanying data used in
 // scheduling and allocation research.
 //
-// http://ziyang.eecs.umich.edu/~dickrp/tgff/
+// http://ziyang.eecs.umich.edu/~dickrp/tgff
 package tgff
 
 import (
