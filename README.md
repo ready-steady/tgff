@@ -10,10 +10,10 @@ allocation research. Refer to [TGFF][1] for further details.
 
 1. Fork the project.
 2. Implement your idea.
-3. Create a pull request.
+3. Open a pull request.
 
 [1]: http://ziyang.eecs.umich.edu/~dickrp/tgff
 
-[doc]: http://godoc.org/github.com/ready-steady/tgff
-[travis-svg]: https://travis-ci.org/ready-steady/tgff.svg?branch=master
-[travis-url]: https://travis-ci.org/ready-steady/tgff
+[travis-svg]: https://travis-ci.org/turing-complete/tgff.svg?branch=master
+[travis-url]: https://travis-ci.org/turing-complete/tgff
+[doc]: http://godoc.org/github.com/turing-complete/tgff
