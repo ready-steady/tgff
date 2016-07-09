@@ -133,14 +133,12 @@ func ExampleParseFile() {
 func readFixture(name string) []byte {
 	path := path.Join(fixturePath, fmt.Sprintf("%s.tgff", name))
 	data, _ := ioutil.ReadFile(path)
-
 	return data
 }
 
 func openFixture(name string) *os.File {
 	path := path.Join(fixturePath, fmt.Sprintf("%s.tgff", name))
 	file, _ := os.Open(path)
-
 	return file
 }
 

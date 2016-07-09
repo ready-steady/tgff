@@ -53,7 +53,6 @@ func (p *parser) unreceive(token *token) {
 func (p *parser) receive(accept func(*token) bool) (*token, error) {
 	var token *token
 	var ok bool
-
 	select {
 	case token = <-p.buffer:
 	default:
@@ -61,15 +60,12 @@ func (p *parser) receive(accept func(*token) bool) (*token, error) {
 			return nil, io.EOF
 		}
 	}
-
 	if token.kind == errorToken {
 		return nil, errors.New(token.value)
 	}
-
 	if !accept(token) {
 		return nil, errors.New(fmt.Sprintf("rejected %v", token))
 	}
-
 	return token, nil
 }
 
@@ -78,11 +74,9 @@ func (p *parser) receiveWhile(accept func(*token) bool) ([]*token, error) {
 
 	extendIfNeeded := func() {
 		size := len(tokens)
-
 		if size < cap(tokens) {
 			return
 		}
-
 		newTokens := make([]*token, size, 2*size)
 		copy(newTokens, tokens)
 		tokens = newTokens
@@ -99,18 +93,14 @@ func (p *parser) receiveWhile(accept func(*token) bool) ([]*token, error) {
 				return tokens, nil
 			}
 		}
-
 		if token.kind == errorToken {
 			return tokens, errors.New(token.value)
 		}
-
 		if !accept(token) {
 			p.unreceive(token)
 			return tokens, nil
 		}
-
 		extendIfNeeded()
-
 		tokens = append(tokens, token)
 	}
 }

@@ -9,7 +9,6 @@ import (
 func TestParserReceiveOneSuccess(t *testing.T) {
 	stream, abort := make(chan *token), make(chan bool)
 	parser, _, _ := newParser(stream, abort)
-
 	go func() {
 		stream <- &token{numberToken, ""}
 	}()
@@ -22,7 +21,6 @@ func TestParserReceiveOneSuccess(t *testing.T) {
 func TestParserReceiveOneFailure(t *testing.T) {
 	stream, abort := make(chan *token), make(chan bool)
 	parser, _, _ := newParser(stream, abort)
-
 	go func() {
 		stream <- &token{identToken, ""}
 	}()
@@ -35,7 +33,6 @@ func TestParserReceiveOneFailure(t *testing.T) {
 func TestParserUnreceive(t *testing.T) {
 	stream, abort := make(chan *token), make(chan bool)
 	parser, _, _ := newParser(stream, abort)
-
 	go func() {
 		stream <- &token{numberToken, "First"}
 		stream <- &token{numberToken, "Second"}
@@ -56,7 +53,6 @@ func TestParserUnreceive(t *testing.T) {
 func TestParserPeekOneOf(t *testing.T) {
 	stream, abort := make(chan *token), make(chan bool)
 	parser, _, _ := newParser(stream, abort)
-
 	go func() {
 		stream <- &token{numberToken, "First"}
 	}()

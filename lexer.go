@@ -21,14 +21,12 @@ type lexer struct {
 
 func newLexer(reader io.Reader, abort <-chan bool) (*lexer, <-chan *token) {
 	stream := make(chan *token, lexStreamCap)
-
 	lexer := &lexer{
 		reader: bufio.NewReader(reader),
 		stream: stream,
 		abort:  abort,
 		buffer: make([]byte, 0, lexBufferCap),
 	}
-
 	return lexer, stream
 }
 
@@ -57,20 +55,16 @@ func (l *lexer) set(value string) {
 
 func (l *lexer) peek() (byte, error) {
 	c, err := l.reader.ReadByte()
-
 	if err == nil {
 		l.reader.UnreadByte()
 	}
-
 	return c, err
 }
 
 func (l *lexer) read(accept func(int, byte) bool) error {
 	k := 0
-
 	for {
 		c, err := l.reader.ReadByte()
-
 		if err != nil {
 			if err == io.EOF {
 				return nil
@@ -78,12 +72,10 @@ func (l *lexer) read(accept func(int, byte) bool) error {
 				return err
 			}
 		}
-
 		if !accept(k, c) {
 			l.reader.UnreadByte()
 			return nil
 		}
-
 		l.buffer = append(l.buffer, c)
 		k++
 	}
@@ -91,15 +83,12 @@ func (l *lexer) read(accept func(int, byte) bool) error {
 
 func (l *lexer) readSomething(accept func(int, byte) bool) error {
 	size := len(l.buffer)
-
 	if err := l.read(accept); err != nil {
 		return err
 	}
-
 	if size == len(l.buffer) {
 		return errors.New("expected to read something")
 	}
-
 	return nil
 }
 
@@ -108,12 +97,10 @@ func (l *lexer) readAny(groups ...string) error {
 		err := l.read(func(_ int, c byte) bool {
 			return isMember(chars, c)
 		})
-
 		if err != nil {
 			return err
 		}
 	}
-
 	return nil
 }
 
@@ -121,30 +108,24 @@ func (l *lexer) readAnyOneOf(chars string) error {
 	err := l.read(func(i int, c byte) bool {
 		return i == 0 && isMember(chars, c)
 	})
-
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
 
 func (l *lexer) readSequence(chars string) error {
 	size := len(l.buffer)
 	count := len(chars)
-
 	err := l.read(func(i int, c byte) bool {
 		return i < count && chars[i] == c
 	})
-
 	if err != nil {
 		return err
 	}
-
 	if len(l.buffer) != size+count {
 		return errors.New(fmt.Sprintf("expected '%v'", chars))
 	}
-
 	return nil
 }
 
@@ -172,13 +153,10 @@ func (l *lexer) readName() error {
 
 func (l *lexer) skip(yield func() error) error {
 	size := len(l.buffer)
-
 	err := yield()
-
 	if err == nil {
 		l.buffer = l.buffer[0:size]
 	}
-
 	return err
 }
 

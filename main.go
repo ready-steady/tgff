@@ -34,12 +34,9 @@ func Parse(reader io.Reader) (Result, error) {
 // an io.Reader.
 func ParseFile(path string) (Result, error) {
 	file, err := os.Open(path)
-
 	if err != nil {
 		return Result{}, err
 	}
-
 	defer file.Close()
-
 	return Parse(file)
 }
